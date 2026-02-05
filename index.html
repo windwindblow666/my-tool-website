@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的小工具</title>
+    <title>我的小工具网站</title>
     <style>
         * {
             margin: 0;
@@ -48,22 +48,12 @@
             font-weight: 500;
         }
         
-        input[type="number"],
-        input[type="text"],
-        select {
+        input, select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="number"]:focus,
-        input[type="text"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
         }
         
         button {
@@ -76,16 +66,10 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        button:active {
-            transform: translateY(0);
+            opacity: 0.9;
         }
         
         .result {
@@ -95,23 +79,6 @@
             border-radius: 8px;
             text-align: center;
             font-size: 18px;
-            color: #333;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .result-label {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .result-value {
-            color: #667eea;
-            font-size: 24px;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -120,12 +87,12 @@
         <h1>🧮 万能计算器</h1>
         
         <div class="input-group">
-            <label for="num1">第一个数字</label>
+            <label>第一个数字</label>
             <input type="number" id="num1" placeholder="请输入数字">
         </div>
         
         <div class="input-group">
-            <label for="operator">选择运算</label>
+            <label>选择运算</label>
             <select id="operator">
                 <option value="+">加法 (+)</option>
                 <option value="-">减法 (-)</option>
@@ -135,18 +102,13 @@
         </div>
         
         <div class="input-group">
-            <label for="num2">第二个数字</label>
+            <label>第二个数字</label>
             <input type="number" id="num2" placeholder="请输入数字">
         </div>
         
         <button onclick="calculate()">计算结果</button>
         
-        <div class="result" id="result">
-            <div>
-                <div class="result-label">结果</div>
-                <div class="result-value" id="resultValue">-</div>
-            </div>
-        </div>
+        <div class="result" id="result">结果将显示在这里</div>
     </div>
 
     <script>
@@ -154,45 +116,29 @@
             const num1 = parseFloat(document.getElementById('num1').value);
             const num2 = parseFloat(document.getElementById('num2').value);
             const operator = document.getElementById('operator').value;
-            const resultValue = document.getElementById('resultValue');
+            const resultDiv = document.getElementById('result');
             
             if (isNaN(num1) || isNaN(num2)) {
-                resultValue.textContent = '请输入有效数字';
-                resultValue.style.color = '#e74c3c';
+                resultDiv.innerHTML = '<strong style="color: #e74c3c;">请输入有效数字</strong>';
                 return;
             }
             
             let result;
             switch(operator) {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': 
                     if (num2 === 0) {
-                        resultValue.textContent = '不能除以零';
-                        resultValue.style.color = '#e74c3c';
+                        resultDiv.innerHTML = '<strong style="color: #e74c3c;">不能除以零</strong>';
                         return;
                     }
-                    result = num1 / num2;
+                    result = num1 / num2; 
                     break;
             }
             
-            resultValue.textContent = result;
-            resultValue.style.color = '#667eea';
+            resultDiv.innerHTML = `<strong style="color: #667eea; font-size: 24px;">${result}</strong>`;
         }
-        
-        // 支持回车键计算
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                calculate();
-            }
-        });
     </script>
 </body>
 </html>
